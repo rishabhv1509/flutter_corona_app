@@ -1,21 +1,21 @@
-class CountryWiseData {
+class Countries {
   String country;
   String slug;
-  List<String> provinces;
+  String iSO2;
 
-  CountryWiseData({this.country, this.slug, this.provinces});
+  Countries({this.country, this.slug, this.iSO2});
 
-  CountryWiseData.fromJson(Map<String, dynamic> json) {
+  Countries.fromJson(Map<String, dynamic> json) {
     country = json['Country'];
     slug = json['Slug'];
-    provinces = json['Provinces'].cast<String>();
+    iSO2 = json['ISO2'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Country'] = this.country;
     data['Slug'] = this.slug;
-    data['Provinces'] = this.provinces;
+    data['ISO2'] = this.iSO2;
     return data;
   }
 }
