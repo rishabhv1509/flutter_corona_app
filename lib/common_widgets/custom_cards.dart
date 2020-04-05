@@ -12,7 +12,7 @@ class CustomCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 0,
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Column(

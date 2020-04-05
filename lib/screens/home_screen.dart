@@ -1,7 +1,7 @@
-import 'package:corona/common_widgets/bottom_navigation_bar.dart';
 import 'package:corona/common_widgets/common_widgets.dart';
-import 'package:corona/screens/country_list.dart';
-import 'package:corona/screens/test.dart';
+import 'package:corona/common_widgets/custom_cards.dart';
+import 'package:corona/common_widgets/status_handler.dart';
+import 'package:corona/view_models/home_screem_view_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,35 +10,83 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController _pageController = PageController();
-  int _index = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigator(_pageController),
-      backgroundColor: Color(0xffE5E5E5),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              HeightBox(20),
-              Container(
-                height: 800,
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _index = index;
-                    });
-                  },
-                  children: <Widget>[Test(), CountrySearch(), Test(), Test()],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          HeightBox(200),
+          // HeightBox(10),
+          Padding(
+            padding: EdgeInsets.only(top: 8.0, left: 20, right: 20),
+            child: Container(
+              child: StatusHandeller<HomeScreenProvider>(
+                statusString: 'get_data',
+                showErrorDialogue: true,
+                successBuilder: (provider) => Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: CustomCards(
+                          heading: 'TOTAL CASES',
+                          number: provider.totalData.cases,
+                          color: Color(0xff2F80ED),
+                        )),
+                      ],
+                    ),
+                    HeightBox(16),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: CustomCards(
+                          heading: 'ACTIVE CASES',
+                          number: provider.totalData.active,
+                          color: Colors.red.shade900,
+                        )),
+                      ],
+                    ),
+                    HeightBox(16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CustomCards(
+                            heading: "RECOVERD",
+                            color: Color(0xff219653),
+                            number: provider.totalData.recovered),
+                        CustomCards(
+                          heading: 'DEATHS',
+                          color: Color(0xffDE3047),
+                          number: provider.totalData.deaths,
+                        ),
+                      ],
+                    ),
+                    HeightBox(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CustomCards(
+                          color: Color(0xffFF7410),
+                          showPlus: true,
+                          heading: 'NEW CASES',
+                          number: provider.totalData.todayCases,
+                        ),
+                        CustomCards(
+                          color: Color(0xffDE3047),
+                          heading: 'NEW DEATHS',
+                          showPlus: true,
+                          number: provider.totalData.todayDeaths,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
+                load: (provider) => provider.getTotalData(),
               ),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

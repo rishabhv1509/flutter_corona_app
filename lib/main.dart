@@ -1,4 +1,4 @@
-import 'package:corona/routes/roures.dart';
+import 'package:corona/routes/routes.dart';
 import 'package:corona/view_models/countries_view_model.dart';
 import 'package:corona/view_models/home_screem_view_model.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         key: uniqueKey,
-        // navigatorKey: navigatorKey,
-        // initialRoute: SetupRoutes.initialRoute,
         routes: SetupRoutes.routes,
         title: 'Flutter Demo',
         theme: ThemeData(

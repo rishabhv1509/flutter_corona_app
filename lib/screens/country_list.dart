@@ -1,6 +1,10 @@
+import 'package:corona/common_widgets/search_tile.dart';
 import 'package:corona/common_widgets/status_handler.dart';
+import 'package:corona/models/countries.dart';
+import 'package:corona/screens/details_screen.dart';
 import 'package:corona/view_models/countries_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CountrySearch extends StatefulWidget {
   @override
@@ -8,6 +12,8 @@ class CountrySearch extends StatefulWidget {
 }
 
 class _CountrySearchState extends State<CountrySearch> {
+  TextEditingController _controller = TextEditingController();
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +22,20 @@ class _CountrySearchState extends State<CountrySearch> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                height: 50,
-                color: Colors.red,
-                child: Text('data'),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SearchTile(
+                      controller: _controller,
+                      onChanged: (s) {
+                        setState(() {
+                          Provider.of<CountriesProvider>(context, listen: false)
+                              .searchString = s;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
               Container(
                 height: 900,
@@ -28,12 +44,86 @@ class _CountrySearchState extends State<CountrySearch> {
                       statusString: 'get_countries',
                       showErrorDialogue: true,
                       successBuilder: (provider) {
+                        List<Country> countryList = provider.filterCountries();
                         return ListView.builder(
-                          itemCount: provider.countryList.length,
+                          itemCount: countryList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
+                              onTap: () {
+                                // selectedIndex = index;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DetailsScreen(
+                                              country: countryList[index],
+                                            )));
+                              },
+                              subtitle: Padding(
+                                padding: EdgeInsets.only(top: 16.0, bottom: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'TOTAL CASES',
+                                          style: TextStyle(
+                                              fontFamily: 'Nova',
+                                              fontSize: 12,
+                                              color: Color(0xff8391A7),
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Text(
+                                          countryList[index].cases.toString(),
+                                          style: TextStyle(
+                                              fontFamily: 'Nova',
+                                              color: Color(0xff2F80ED),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'NEW CASES',
+                                          style: TextStyle(
+                                              fontFamily: 'Nova',
+                                              fontSize: 12,
+                                              color: Color(0xff8391A7),
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Text(
+                                          '+ ${countryList[index].todayCases.toString()}',
+                                          style: TextStyle(
+                                              fontFamily: 'Nova',
+                                              color: Color(0xffFF7410),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                               contentPadding: EdgeInsets.all(10),
-                              title: Text(provider.countryList[index].country),
+                              title: Text(
+                                countryList[index].country,
+                                style: TextStyle(
+                                    fontFamily: 'Nova',
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             );
                           },
                         );

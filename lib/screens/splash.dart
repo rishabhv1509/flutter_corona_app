@@ -1,15 +1,11 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:corona/common_widgets/common_widgets.dart';
-import 'package:corona/routes/roures.dart';
+import 'package:corona/routes/routes.dart';
 import 'package:corona/services/size_config.dart';
-import 'package:corona/utils/assets/images.dart';
 import 'package:corona/utils/constants/route_names.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/parser.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -22,7 +18,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     print("got in splash");
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      SetupRoutes.replaceScreen(context, Routes.HOME);
+      SetupRoutes.replaceScreen(context, Routes.TAB);
     });
   }
 
@@ -54,11 +50,6 @@ class _SplashState extends State<Splash> {
                 Container(
                   height: 265.toHeight,
                   width: 265.toWidth,
-                  // child: SvgPicture.string(
-                  //   svg,
-                  //   color: Colors.grey.withOpacity(0.20),
-                  //   // color: Colors.transparent,
-                  // ),
                 )
               ],
             )

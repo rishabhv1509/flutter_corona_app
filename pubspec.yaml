@@ -29,6 +29,7 @@ dependencies:
   flutter_svg: ^0.17.3+1
   bottom_navy_bar: ^5.3.2
   line_icons: ^0.2.0
+  xml:
 
 dev_dependencies:
   flutter_test:

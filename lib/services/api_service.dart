@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:corona/services/connectivity_service.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -16,17 +14,9 @@ class ApiService {
       response = await _dio.get(url,
           options: Options(headers: {"Content-Type": "application/json"}));
 
-      // var data = utf8.decode(response.data);
       var decodedData;
-      // if (response.data is String) {
-      //   try {
-      //     decodedData = jsonDecode(data);
-      //   } catch (e) {
-      //     decodedData = data;
-      //   }
-      // } else {
+
       decodedData = response.data;
-      // }
 
       return ApiResponse(
         responseCode: response.statusCode,
@@ -34,6 +24,8 @@ class ApiService {
         header: response?.headers ?? {},
       );
     } on SocketException catch (e) {
+      print(e);
+
       if (await ConnectivityService().checkConnectivity())
         return ApiResponse(responseCode: 4040, data: {
           "errorCode": "404",

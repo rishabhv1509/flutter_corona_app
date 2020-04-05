@@ -1,5 +1,4 @@
 import 'package:corona/models/api_response.dart';
-import 'package:corona/models/countries.dart';
 import 'package:corona/models/summary.dart';
 import 'package:corona/services/api_service.dart';
 
@@ -25,7 +24,7 @@ class ApiCall {
   }
 
   getCountries() async {
-    String url = '$baseUrl/countries';
+    String url = 'https://corona.lmao.ninja/countries';
     try {
       final response = await _apiService.getData(url);
       if (response.responseCode == 200) {

@@ -1,21 +1,85 @@
-class Countries {
+class Country {
   String country;
-  String slug;
-  String iSO2;
+  CountryInfo countryInfo;
+  int cases;
+  int todayCases;
+  int deaths;
+  int todayDeaths;
+  int recovered;
+  int active;
+  int critical;
 
-  Countries({this.country, this.slug, this.iSO2});
+  int updated;
 
-  Countries.fromJson(Map<String, dynamic> json) {
-    country = json['Country'];
-    slug = json['Slug'];
-    iSO2 = json['ISO2'];
+  Country(
+      {this.country,
+      this.countryInfo,
+      this.cases,
+      this.todayCases,
+      this.deaths,
+      this.todayDeaths,
+      this.recovered,
+      this.active,
+      this.critical,
+      this.updated});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    country = json['country'];
+    countryInfo = CountryInfo.fromJson(json['countryInfo']);
+    cases = json['cases'];
+    todayCases = json['todayCases'];
+    deaths = json['deaths'];
+    todayDeaths = json['todayDeaths'];
+    recovered = json['recovered'];
+    active = json['active'];
+    critical = json['critical'];
+
+    updated = json['updated'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Country'] = this.country;
-    data['Slug'] = this.slug;
-    data['ISO2'] = this.iSO2;
+    data['country'] = this.country;
+
+    data['countryInfo'] = this.countryInfo.toJson();
+
+    data['cases'] = this.cases;
+    data['todayCases'] = this.todayCases;
+    data['deaths'] = this.deaths;
+    data['todayDeaths'] = this.todayDeaths;
+    data['recovered'] = this.recovered;
+    data['active'] = this.active;
+    data['critical'] = this.critical;
+
+    data['updated'] = this.updated;
+    return data;
+  }
+}
+
+class CountryInfo {
+  int iId;
+  String iso2;
+  String iso3;
+
+  String flag;
+
+  CountryInfo({this.iId, this.iso2, this.iso3, this.flag});
+
+  CountryInfo.fromJson(Map<String, dynamic> json) {
+    iId = json['_id'];
+    iso2 = json['iso2'];
+    iso3 = json['iso3'];
+
+    flag = json['flag'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.iId;
+    data['iso2'] = this.iso2;
+    data['iso3'] = this.iso3;
+
+    data['flag'] = this.flag;
     return data;
   }
 }
